@@ -34,7 +34,7 @@ source "amazon-ebs" "ubuntu" {
   # Reference: https://github.com/hashicorp/packer-plugin-amazon/blob/main/docs-partials/builders/aws-ssh-differentiation-table.mdx
   ssh_keypair_name        = "acharolia"
   ssh_private_key_file    = var.ssh_private_key_file
-  ssh_timeout             = "5m"
+  ssh_timeout             = "10m"
   ssh_agent_auth          = true
   # Reference: https://github.com/hashicorp/packer-plugin-amazon/blob/f8c2e6ff7229a8abd729a89e1b8a6ed1041e368c/docs/builders/ebs.mdx
   launch_block_device_mappings {
@@ -58,10 +58,6 @@ build {
   sources = [
     "source.amazon-ebs.ubuntu"
   ]
-
-  provisioner "shell" {
-    inline = ["echo Connected via SSM at '${build.User}@${build.Host}:${build.Port}'"]
-  }
 
   provisioner "shell" {
     inline = [
