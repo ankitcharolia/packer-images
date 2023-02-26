@@ -35,7 +35,6 @@ source "amazon-ebs" "ubuntu" {
   ssh_keypair_name        = "acharolia"
   ssh_private_key_file    = var.ssh_private_key_file
   ssh_timeout             = "10m"
-  ssh_agent_auth          = true
   # Reference: https://github.com/hashicorp/packer-plugin-amazon/blob/f8c2e6ff7229a8abd729a89e1b8a6ed1041e368c/docs/builders/ebs.mdx
   launch_block_device_mappings {
     device_name           = "/dev/sda1"
@@ -59,13 +58,20 @@ build {
     "source.amazon-ebs.ubuntu"
   ]
 
+  # Fix: https://discuss.hashicorp.com/t/how-to-fix-debconf-unable-to-initialize-frontend-dialog-error/39201
+  provisioner "shell" {
+    inline = [
+      "echo set debconf to Noninteractive",
+      "echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections" ]
+  }
+
   provisioner "shell" {
     inline = [
       "echo Updating Image",
       "sleep 30",
       "sudo apt-get update",
       "sudo apt-get upgrade -y",
-      "sudo apt-get install ansible git",
+      "sudo apt-get install ansible git -y",
     ]
   }
 }
