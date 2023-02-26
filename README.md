@@ -5,11 +5,10 @@ NOTE: We use HCL2 (Hashicorp Configuration Language 2) syntax for creating AMI (
 ### Authenticate to AWS
 ```shell
 # Before you can build the AMI, you need to provide your AWS credentials to Packer. These credentials have permissions to create, modify and delete EC2 instances. Refer to the
-
-source exportAWSProfile.sh 
+export AWS_PROFILE=aws-stage 
 ```
 
-### # Initialize Packer configuration
+### Initialize Packer configuration
 ```shell
 # Starting from version 1.7, Packer supports a new packer init command allowing automatic installation of Packer plugins.
 packer init .
@@ -26,7 +25,7 @@ packer validate .
 
 ### Build Packer image
 ```shell
-packer build -var-file="ubuntu-stage.pkrvars.hcl" aws-ubuntu.pkr.hcl
+packer build -var-file="ubuntu-stage.pkrvars.hcl" -var ssh_private_key_file=~/.ssh/acharolia-ireland.pem .
 ```
 ---
 **Visit the AWS AMI page to verify that Packer successfully built your AMI.**
