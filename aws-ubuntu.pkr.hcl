@@ -27,14 +27,14 @@ source "amazon-ebs" "ubuntu" {
   }
   ssh_username = "ubuntu"
   # vpc_id is needed when default VPN has been deleted
-  vpc_id                  = var.vpc_id
-  subnet_id               = var.subnet_id
+  vpc_id                      = var.vpc_id
+  subnet_id                   = var.subnet_id
   associate_public_ip_address = true
-  ssh_interface           = "public_ip"
+  ssh_interface               = "public_ip"
   # Reference: https://github.com/hashicorp/packer-plugin-amazon/blob/main/docs-partials/builders/aws-ssh-differentiation-table.mdx
-  ssh_keypair_name        = "acharolia"
-  ssh_private_key_file    = var.ssh_private_key_file
-  ssh_timeout             = "10m"
+  ssh_keypair_name            = "acharolia"
+  ssh_private_key_file        = var.ssh_private_key_file
+  ssh_timeout                 = "10m"
   # Reference: https://github.com/hashicorp/packer-plugin-amazon/blob/f8c2e6ff7229a8abd729a89e1b8a6ed1041e368c/docs/builders/ebs.mdx
   launch_block_device_mappings {
     device_name           = "/dev/sda1"
@@ -64,7 +64,8 @@ build {
   provisioner "shell" {
     inline = [
       "echo set debconf to Noninteractive",
-      "echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections" ]
+      "echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections"
+    ]
   }
 
   provisioner "shell" {
