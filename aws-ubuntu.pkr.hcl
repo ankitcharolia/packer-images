@@ -44,11 +44,13 @@ source "amazon-ebs" "ubuntu" {
   }
   # Reference: https://github.com/hashicorp/packer-plugin-amazon/blob/f8c2e6ff7229a8abd729a89e1b8a6ed1041e368c/docs/builders/ebs.mdx#tag-example
   tags = {
-    Name            = "{{ build `ami_name`}}",
+    Name            = "Ubuntu",
+    os_version      = "22.04"
     created         = "${local.timestamp}",
     build_region    = "{{ .BuildRegion }}",
     source_ami_id   = "{{ .SourceAMI }}",
     source_ami_name = "{{ .SourceAMIName }}",
+    Extra           = "{{ .SourceAMITags.TagName }}",
   }
 }
 
