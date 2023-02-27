@@ -8,5 +8,5 @@ PACKER=$(which packer)
 
 packer init .
 packer fmt .
-packer validate .
+packer validate -var ssh_private_key_file=~/.ssh/acharolia-ireland.pem .
 packer build -var-file="ubuntu-stage.pkrvars.hcl" -var ssh_private_key_file=~/.ssh/acharolia-ireland.pem .

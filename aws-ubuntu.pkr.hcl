@@ -32,9 +32,9 @@ source "amazon-ebs" "ubuntu" {
   associate_public_ip_address = true
   ssh_interface               = "public_ip"
   # Reference: https://github.com/hashicorp/packer-plugin-amazon/blob/main/docs-partials/builders/aws-ssh-differentiation-table.mdx
-  ssh_keypair_name            = "acharolia"
-  ssh_private_key_file        = var.ssh_private_key_file
-  ssh_timeout                 = "10m"
+  ssh_keypair_name     = "acharolia"
+  ssh_private_key_file = var.ssh_private_key_file
+  ssh_timeout          = "10m"
   # Reference: https://github.com/hashicorp/packer-plugin-amazon/blob/f8c2e6ff7229a8abd729a89e1b8a6ed1041e368c/docs/builders/ebs.mdx
   launch_block_device_mappings {
     device_name           = "/dev/sda1"
@@ -44,7 +44,7 @@ source "amazon-ebs" "ubuntu" {
   }
   # Reference: https://github.com/hashicorp/packer-plugin-amazon/blob/f8c2e6ff7229a8abd729a89e1b8a6ed1041e368c/docs/builders/ebs.mdx#tag-example
   tags = {
-    Name            = "Ubuntu",
+    Name            = "Ubuntu22",
     os_version      = "22.04"
     created         = "${local.timestamp}",
     build_region    = "{{ .BuildRegion }}",
