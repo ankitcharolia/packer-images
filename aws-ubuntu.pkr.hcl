@@ -21,6 +21,7 @@ source "amazon-ebs" "ubuntu" {
       name                = "ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"
       root-device-type    = "ebs"
       virtualization-type = "hvm"
+      architecture        = "x86_64"
     }
     most_recent = true
     owners      = ["099720109477"]
@@ -42,6 +43,22 @@ source "amazon-ebs" "ubuntu" {
     volume_type           = var.volume_type
     delete_on_termination = true
   }
+  # Reference: https://blog.shvetsov.com/2017/03/ensure-ec2-auto-recovery-by-rebuilding-ami-with-packer.html
+  # Link:https://github.com/sshvetsov/packer-ubuntu-rebake/blob/master/ubuntu-14.04-x86_64.json
+  # If your AMI defines ephemeral devices, auto-recovery fails.
+  ami_block_device_mappings {
+    device_name = "/dev/sdb"
+    no_device   = true
+  }
+  ami_block_device_mappings {
+    device_name = "/dev/sdc"
+    no_device   = true
+  }
+  # replace existing AMI with same name. default to false
+  force_deregister      = true
+  force_delete_snapshot = true
+
+
   # Reference: https://github.com/hashicorp/packer-plugin-amazon/blob/f8c2e6ff7229a8abd729a89e1b8a6ed1041e368c/docs/builders/ebs.mdx#tag-example
   tags = {
     Name            = "Ubuntu22",

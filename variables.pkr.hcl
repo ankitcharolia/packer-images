@@ -16,7 +16,7 @@ variable "ssh_private_key_file" {
 variable "root_volume_size_gb" {
   description = "The size of the volume, in GiB"
   type        = string
-  default     = "30"
+  default     = "20"
 }
 
 variable "volume_type" {
